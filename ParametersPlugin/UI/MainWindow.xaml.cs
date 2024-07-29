@@ -1,10 +1,10 @@
-﻿
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ParametersPlugin.UI
 {
@@ -28,6 +28,15 @@ namespace ParametersPlugin.UI
             // Execute the Parameter Name validation
             if (ValidateParameterName(parameterName))
                 SelectElementsByParameter(parameterName, parameterValue);
+        }
+        private void btnIsolateView_Click(object sender, RoutedEventArgs e)
+        {
+            string parameterName = tbParamName.Text.Trim();
+            string parameterValue = tbParamValue.Text.Trim();
+
+            // Execute the Parameter Name validation
+            if (ValidateParameterName(parameterName))
+                IsolateInViewByParameter(parameterName, parameterValue);
         }
 
         private bool ValidateParameterName(string parameterName)
@@ -59,6 +68,33 @@ namespace ParametersPlugin.UI
             }
             else
                 TaskDialog.Show("Selection", $"Could not find any Element that contains {parameterName}.");
+        }
+
+        private void IsolateInViewByParameter(string parameterName, string parameterValue)
+        {
+            Document document = UiApp.ActiveUIDocument.Document;
+            View activeView = document.ActiveView;
+
+            List<ElementId> matchingElements = GetElementsIdList(parameterName, parameterValue);
+
+            using (Transaction t = new Transaction(document, "Create SelectionFilterElement"))
+            {
+                t.Start();
+
+                activeView.IsolateElementsTemporary(matchingElements);
+
+                t.Commit();
+            }
+
+            if (matchingElements.Count > 0)
+            {
+                if (parameterValue.Length > 0)
+                    TaskDialog.Show("Isolate in View", $"Selected {matchingElements.Count} Elements for:\nParameter: {parameterName}\nValue: {parameterValue}\nActive View: {activeView.Name}");
+                else
+                    TaskDialog.Show("Isolate in View", $"Selected {matchingElements.Count} Elements for:\nParameter: {parameterName}\nActive View: {activeView.Name}");
+            }
+            else
+                TaskDialog.Show("Isolate in View", $"Could not find any Element that contains {parameterName} in the current view.");
         }
 
         List<Element> GetElementsList(string parameterName, string parameterValue)
@@ -94,6 +130,41 @@ namespace ParametersPlugin.UI
             }
 
             return matchingElements;
+        }
+
+        List<ElementId> GetElementsIdList(string parameterName, string parameterValue)
+        {
+            Document doc = UiDoc.Document;
+
+            // Get a filter to find all elements in the document
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+
+            // Need to pass something to the Collector, or it will raise an Exception
+            // https://thebuildingcoder.typepad.com/blog/2010/06/filter-for-all-elements.html
+            collector.WherePasses(new LogicalOrFilter(
+                new ElementIsElementTypeFilter(false),
+                new ElementIsElementTypeFilter(true))
+            );
+
+            // List to store elements that match the parameter criteria
+            List<ElementId> matchingElementsId = new List<ElementId>();
+
+
+            foreach (Element element in collector)
+            {
+                // Verify if the Element contains the Parameter Name
+                Parameter param = element.LookupParameter(parameterName);
+                if (param != null)
+                {
+                    string paramVal = GetParameterInformation(param, doc).Trim();
+
+                    // Check if the parameter value matches the given value, or if the parameterValue is empty
+                    if (parameterValue.Length == 0 || paramVal.Equals(parameterValue))
+                        matchingElementsId.Add(element.Id);
+                }
+            }
+
+            return matchingElementsId;
         }
 
         String GetParameterInformation(Parameter parameter, Document document)

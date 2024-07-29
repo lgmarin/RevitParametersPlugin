@@ -29,7 +29,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnIsolateView" Content="Isolate in View" Width="160" Height="40" Grid.Column="0"/>
+            <Button x:Name="btnIsolateView" Content="Isolate in View" Width="160" Height="40" Grid.Column="0" Click="btnIsolateView_Click"/>
             <Button x:Name="btnSelect" Content="Select" Width="160" Height="40" Grid.Column="1" Click="btnSelect_Click"/>
         </Grid>
     </Grid>
