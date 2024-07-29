@@ -17,7 +17,7 @@ namespace ParametersPlugin
             // Add a new ribbon panel to the new Tab
             RibbonPanel ribbonPanel = application.CreateRibbonPanel(tabName, "Parameters");
 
-            // Create a push button to trigger a command add it to the ribbon panel.
+            // Create a push button to trigger a command and add it to the ribbon panel.
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             PushButtonData buttonData = new PushButtonData("cmdParametersScanner",
                "Parameters Scanner", thisAssemblyPath, "ParametersPlugin.Scanner");
@@ -26,7 +26,7 @@ namespace ParametersPlugin
 
             pushButton.ToolTip = "Run the Parameters Scanner on the project.";
 
-            // b) large bitmap
+            // Add the desired Icon to the button
             Uri uriImage = new Uri(Path.Combine(Path.GetDirectoryName(thisAssemblyPath), "Resources", "icon_32.png"));
             BitmapImage largeImage = new BitmapImage(uriImage);
             pushButton.LargeImage = largeImage;

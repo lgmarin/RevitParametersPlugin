@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace ParametersPlugin.UI
 {
@@ -43,7 +42,7 @@ namespace ParametersPlugin.UI
         {
             if (parameterName.Length == 0)
             {
-                TaskDialog.Show("Parameters Plugin", "The Parameter Name should not be empty!");
+                TaskDialog.Show("Parameters Scanner", "The Parameter Name should not be empty!");
                 return false;
             }
 
@@ -54,7 +53,6 @@ namespace ParametersPlugin.UI
 
         private void SelectElementsByParameter(string parameterName, string parameterValue)
         {
-
             List<Element> matchingElements = GetElementsList(parameterName, parameterValue);
 
             if (matchingElements.Count > 0)
@@ -148,7 +146,6 @@ namespace ParametersPlugin.UI
 
             // List to store elements that match the parameter criteria
             List<ElementId> matchingElementsId = new List<ElementId>();
-
 
             foreach (Element element in collector)
             {
