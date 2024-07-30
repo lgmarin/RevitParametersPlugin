@@ -50,7 +50,7 @@ namespace ParametersPlugin.Commands
                 return true;
             }
 
-            TaskDialog.Show("Selection", $"Could not find any Element that contains {parameterName}.");
+            TaskDialog.Show("Selection", $"No Element with parameter {parameterName} found.");
             return false;
         }
 
@@ -84,7 +84,7 @@ namespace ParametersPlugin.Commands
                 return true;
             }
 
-            TaskDialog.Show("Isolate in View", $"Could not find any Element that contains {parameterName} in the current view.");
+            TaskDialog.Show("Isolate in View", $"No Element with parameter {parameterName} found in the current view.");
             return false;
         }
 
