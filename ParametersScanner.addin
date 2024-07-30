@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+	<Name>Parameters Scanner</Name>
+	<Assembly>ParametersScanner\ParametersPlugin.dll</Assembly>
+	<AddInId>E46D909C-4768-419D-B03C-17338420CC1A</AddInId>
+	<FullClassName>ParametersPlugin.Main</FullClassName>
+	<VendorId>lgmarin</VendorId>
+	<VendorDescription>Your Company Information</VendorDescription>
+  </AddIn>
+</RevitAddIns>
