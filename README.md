@@ -11,7 +11,7 @@ To install the plugin on Revit, follow the instructions bellow.
 
     > You can also access this folder by entering `%APPDATA%\Autodesk\Revit\Addins\2020`
 
-    Inside this folder, should be the **ParameterScanner.addin** file and the **ParameterScanner** folder.
+    Inside this folder, should be the **ParametersScanner.addin** file and the **ParametersScanner** folder.
 
 2. Open **Revit 2020**, at first it will say that the new plugin was found, Allow it to be executed.
 
