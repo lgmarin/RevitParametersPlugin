@@ -22,7 +22,7 @@ namespace ParametersPlugin.Commands
             elementsSelection = new Dictionary<ElementId, Element>();
         }
 
-        public void SelectElementsByParameter(string parameterName, string parameterValue)
+        public bool SelectElementsByParameter(string parameterName, string parameterValue)
         {
             UpdateElementsList(parameterName, parameterValue);
 
@@ -34,12 +34,15 @@ namespace ParametersPlugin.Commands
                     TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}");
 
                 uiDocument.Selection.SetElementIds(elementsSelection.Values.Select(e => e.Id).ToList());
+
+                return true;
             }
-            else
-                TaskDialog.Show("Selection", $"Could not find any Element that contains {parameterName}.");
+
+            TaskDialog.Show("Selection", $"Could not find any Element that contains {parameterName}.");
+            return false;
         }
 
-        public void IsolateInViewByParameter(string parameterName, string parameterValue)
+        public bool IsolateInViewByParameter(string parameterName, string parameterValue)
         {
             Document document = uIApplication.ActiveUIDocument.Document;
             View activeView = document.ActiveView;
@@ -59,9 +62,12 @@ namespace ParametersPlugin.Commands
                     TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {parameterValue}\nActive View: {activeView.Name}");
                 else
                     TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nActive View: {activeView.Name}");
+
+                return true;
             }
-            else
-                TaskDialog.Show("Isolate in View", $"Could not find any Element that contains {parameterName} in the current view.");
+
+            TaskDialog.Show("Isolate in View", $"Could not find any Element that contains {parameterName} in the current view.");
+            return false;
         }
 
         private void UpdateElementsList(string parameterName, string parameterValue)

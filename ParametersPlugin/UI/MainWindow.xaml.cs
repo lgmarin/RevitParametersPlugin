@@ -20,8 +20,11 @@ namespace ParametersPlugin.UI
             string parameterValue = tbParamValue.Text.Trim();
 
             // Execute the Parameter Name validation
-            if (ValidateParameterName(parameterName))
-                pScanner.SelectElementsByParameter(parameterName, parameterValue);
+            if (!ValidateParameterName(parameterName))
+                return;
+                
+            if(pScanner.SelectElementsByParameter(parameterName, parameterValue))
+                this.Close();
         }
         private void btnIsolateView_Click(object sender, RoutedEventArgs e)
         {
@@ -29,8 +32,11 @@ namespace ParametersPlugin.UI
             string parameterValue = tbParamValue.Text.Trim();
 
             // Execute the Parameter Name validation
-            if (ValidateParameterName(parameterName))
-                pScanner.IsolateInViewByParameter(parameterName, parameterValue);
+            if (!ValidateParameterName(parameterName))
+                return;
+                
+            if(pScanner.IsolateInViewByParameter(parameterName, parameterValue))
+                this.Close();
         }
 
         private bool ValidateParameterName(string parameterName)
