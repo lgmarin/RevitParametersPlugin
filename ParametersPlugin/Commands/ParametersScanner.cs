@@ -40,14 +40,13 @@ namespace ParametersPlugin.Commands
 
             if (elementsSelection.Count > 0)
             {
-                TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
-
                 uiDocument.Selection.SetElementIds(elementsSelection.Values.Select(e => e.Id).ToList());
 
+                TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
                 return true;
             }
 
-            TaskDialog.Show("Selection", $"No Element with parameter {PrintValue(parameterValue)} found.");
+            TaskDialog.Show("Selection", $"No Element found in the current view.\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
             return false;
         }
 
@@ -175,7 +174,7 @@ namespace ParametersPlugin.Commands
         /// </summary>
         /// <param name="parameterValue">The parameter value to check</param>
         /// <returns>The valid value or `Empty`</returns>
-        string PrintValue(string parameterValue)
+        private string PrintValue(string parameterValue)
         {
             if ((parameterValue != null) && (parameterValue.Length > 0))
                 return parameterValue; 
