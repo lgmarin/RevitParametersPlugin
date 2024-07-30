@@ -40,17 +40,14 @@ namespace ParametersPlugin.Commands
 
             if (elementsSelection.Count > 0)
             {
-                if (parameterValue.Length > 0)
-                    TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {parameterValue}");
-                else
-                    TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}");
+                TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
 
                 uiDocument.Selection.SetElementIds(elementsSelection.Values.Select(e => e.Id).ToList());
 
                 return true;
             }
 
-            TaskDialog.Show("Selection", $"No Element with parameter {parameterName} found.");
+            TaskDialog.Show("Selection", $"No Element with parameter {PrintValue(parameterValue)} found.");
             return false;
         }
 
@@ -76,15 +73,11 @@ namespace ParametersPlugin.Commands
                     t.Commit();
                 }
 
-                if (parameterValue.Length > 0)
-                    TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {parameterValue}\nActive View: {activeView.Name}");
-                else
-                    TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nActive View: {activeView.Name}");
-
+                TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}\nActive View: {activeView.Name}");
                 return true;
             }
 
-            TaskDialog.Show("Isolate in View", $"No Element with parameter {parameterName} found in the current view.");
+            TaskDialog.Show("Isolate in View", $"No Element found in the current view.\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
             return false;
         }
 
@@ -175,6 +168,19 @@ namespace ParametersPlugin.Commands
             }
 
             return paramValue;
+        }
+
+        /// <summary>
+        /// Helper function to return the parameter value for printing
+        /// </summary>
+        /// <param name="parameterValue">The parameter value to check</param>
+        /// <returns>The valid value or `Empty`</returns>
+        string PrintValue(string parameterValue)
+        {
+            if ((parameterValue != null) && (parameterValue.Length > 0))
+                return parameterValue; 
+            else 
+                return "Empty";
         }
     }
 }
