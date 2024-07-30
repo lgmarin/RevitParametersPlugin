@@ -21,10 +21,16 @@ namespace ParametersPlugin.UI
 
             // Execute the Parameter Name validation
             if (!ValidateParameterName(parameterName))
+            {
+                this.Focus();
                 return;
+            }
                 
-            if(pScanner.SelectElementsByParameter(parameterName, parameterValue))
+                
+            if (pScanner.SelectElementsByParameter(parameterName, parameterValue))
                 this.Close();
+            else
+                this.Focus();
         }
         private void btnIsolateView_Click(object sender, RoutedEventArgs e)
         {
@@ -33,10 +39,15 @@ namespace ParametersPlugin.UI
 
             // Execute the Parameter Name validation
             if (!ValidateParameterName(parameterName))
+            {
+                this.Focus();
                 return;
-                
-            if(pScanner.IsolateInViewByParameter(parameterName, parameterValue))
+            }
+
+            if (pScanner.IsolateInViewByParameter(parameterName, parameterValue))
                 this.Close();
+            else
+                this.Focus();
         }
 
         private bool ValidateParameterName(string parameterName)
