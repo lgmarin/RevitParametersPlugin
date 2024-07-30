@@ -20,7 +20,7 @@ namespace ParametersPlugin
             // Create a push button to trigger a command and add it to the ribbon panel.
             string thisAssemblyPath = Assembly.GetExecutingAssembly().Location;
             PushButtonData buttonData = new PushButtonData("cmdParametersScanner",
-               "Parameters Scanner", thisAssemblyPath, "ParametersPlugin.Scanner");
+               "Parameters Scanner", thisAssemblyPath, "ParametersPlugin.Commands.ScannerUI");
 
             PushButton pushButton = ribbonPanel.AddItem(buttonData) as PushButton;
 

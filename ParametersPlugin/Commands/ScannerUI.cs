@@ -1,21 +1,20 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace ParametersPlugin
+namespace ParametersPlugin.Commands
 {
     /// <summary>
     /// Implements the Scanner Class with the Plugin Commands
     /// </summary>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class Scanner : IExternalCommand
+    public class ScannerUI : IExternalCommand
     {
         /// <summary>
         /// Execute Revit API Command
         /// </summary>
         public Result Execute(ExternalCommandData extCommandData, ref string message, ElementSet elements)
         {
-            UIApplication uIApplication = extCommandData.Application;
-            UI.MainWindow mainWindow = new UI.MainWindow(uIApplication);
+            UI.MainWindow mainWindow = new UI.MainWindow(extCommandData.Application);
 
             mainWindow.ShowDialog();
 
