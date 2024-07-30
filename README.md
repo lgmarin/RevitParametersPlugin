@@ -22,7 +22,7 @@ To install the plugin on Revit, follow the instructions bellow.
 On the Revit Ribbon, go to the **Parameter Scanner** Tab and click on the button to open the Scanner Window.
 
 On the Windows, you can enter the Parameter Name and Value that you want to find.
-> If you leave the **Parameter Value** empty, the Scanner will look for all the Parameters that match the name, no matter what the value is.
+> If you leave the **Parameter Value** empty, the Scanner will look for all the Parameters that match the name and that also have no Value set.
 
 You have two options to visualize the Elements that matches the Parameter Name and Value criteria.
 

@@ -40,17 +40,13 @@ namespace ParametersPlugin.Commands
 
             if (elementsSelection.Count > 0)
             {
-                if (parameterValue.Length > 0)
-                    TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {parameterValue}");
-                else
-                    TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}");
-
                 uiDocument.Selection.SetElementIds(elementsSelection.Values.Select(e => e.Id).ToList());
 
+                TaskDialog.Show("Selection", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
                 return true;
             }
 
-            TaskDialog.Show("Selection", $"No Element with parameter {parameterName} found.");
+            TaskDialog.Show("Selection", $"No Element found in the current view.\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
             return false;
         }
 
@@ -76,15 +72,11 @@ namespace ParametersPlugin.Commands
                     t.Commit();
                 }
 
-                if (parameterValue.Length > 0)
-                    TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {parameterValue}\nActive View: {activeView.Name}");
-                else
-                    TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nActive View: {activeView.Name}");
-
+                TaskDialog.Show("Isolate in View", $"Selected {elementsSelection.Count} Elements for:\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}\nActive View: {activeView.Name}");
                 return true;
             }
 
-            TaskDialog.Show("Isolate in View", $"No Element with parameter {parameterName} found in the current view.");
+            TaskDialog.Show("Isolate in View", $"No Element found in the current view.\nParameter: {parameterName}\nValue: {PrintValue(parameterValue)}");
             return false;
         }
 
@@ -110,8 +102,8 @@ namespace ParametersPlugin.Commands
                 {
                     string paramVal = GetParameterValue(param).Trim();
 
-                    // Check if the parameter value matches the given value, or if the parameterValue is empty
-                    if (parameterValue.Length == 0 || paramVal.Equals(parameterValue))
+                    // Check if the parameter value matches the given value
+                    if (parameterValue.Equals(paramVal))
                     {
                         elementsSelection.Add(element.Id, element);
                     }
@@ -126,6 +118,10 @@ namespace ParametersPlugin.Commands
         /// <returns>A String containing the Value.</returns>
         private String GetParameterValue(Parameter parameter)
         {
+            // Consider the parameter that has no value as Empty
+            if (!parameter.HasValue)
+                return "";
+            
             string paramValue = string.Empty;
 
             // Return the Parameter Value according to the Data Type stored in the parameter
@@ -160,12 +156,30 @@ namespace ParametersPlugin.Commands
                     paramValue = parameter.AsString();
                     break;
 
+                // Check for none type and consider this as Empty
+                case StorageType.None:
+                    paramValue = "";
+                    break;
+
                 default:
                     paramValue = "Unexposed parameter";
                     break;
             }
 
             return paramValue;
+        }
+
+        /// <summary>
+        /// Helper function to return the parameter value for printing
+        /// </summary>
+        /// <param name="parameterValue">The parameter value to check</param>
+        /// <returns>The valid value or `Empty`</returns>
+        private string PrintValue(string parameterValue)
+        {
+            if ((parameterValue != null) && (parameterValue.Length > 0))
+                return parameterValue; 
+            else 
+                return "Empty";
         }
     }
 }
