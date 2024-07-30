@@ -1,4 +1,4 @@
-# Revit Parameters Scanner
+# Revit Parameter Scanner
 
 ## _A Revit plugin to Select or Isolate Elements based on it's parameters_
 
@@ -15,16 +15,18 @@ To install the plugin on Revit, follow the instructions bellow.
 
 2. Open **Revit 2020**, at first it will say that the new plugin was found, Allow it to be executed.
 
-3. The **Parameters Scanner** tab should be available inside the project
+3. The **Parameter Scanner** tab should be available inside the project
 
 ## Usage
 
-On the Revit Ribbon, go to the **Parameters Scanner** Tab and click on the button to open the Scanner Window.
+On the Revit Ribbon, go to the **Parameter Scanner** Tab and click on the button to open the Scanner Window.
 
 On the Windows, you can enter the Parameter Name and Value that you want to find.
 > If you leave the **Parameter Value** empty, the Scanner will look for all the Parameters that match the name, no matter what the value is.
 
 You have two options to visualize the Elements that matches the Parameter Name and Value criteria.
+
+> **NOTE** The Parameter Scanner only works with the View Types **Floor Plan**, **Ceiling Plan** or **3D View** other views are not supported.
 
 1. Select
 
@@ -32,7 +34,7 @@ This option will select all the Elements that matches the criteria, this will ap
 
 2. Isolate in View
 
-This option will isolate the Elements that matches the criteria, all othere elements will be hidden in a Temporary View.
+This option will isolate the Elements that matches the criteria, all other elements will be hidden in a Temporary View.
 
 If you want to exit this view, do a Undo (Ctrl + Z) operation.
 
