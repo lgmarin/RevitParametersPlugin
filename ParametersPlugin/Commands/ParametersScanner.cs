@@ -110,8 +110,8 @@ namespace ParametersPlugin.Commands
                 {
                     string paramVal = GetParameterValue(param).Trim();
 
-                    // Check if the parameter value matches the given value, or if the parameterValue is empty
-                    if (parameterValue.Length == 0 || paramVal.Equals(parameterValue))
+                    // Check if the parameter value matches the given value
+                    if (parameterValue.Equals(paramVal))
                     {
                         elementsSelection.Add(element.Id, element);
                     }
@@ -126,6 +126,10 @@ namespace ParametersPlugin.Commands
         /// <returns>A String containing the Value.</returns>
         private String GetParameterValue(Parameter parameter)
         {
+            // Consider the parameter that has no value as Empty
+            if (!parameter.HasValue)
+                return "";
+            
             string paramValue = string.Empty;
 
             // Return the Parameter Value according to the Data Type stored in the parameter
@@ -158,6 +162,11 @@ namespace ParametersPlugin.Commands
 
                 case StorageType.String:
                     paramValue = parameter.AsString();
+                    break;
+
+                // Check for none type and consider this as Empty
+                case StorageType.None:
+                    paramValue = "";
                     break;
 
                 default:
