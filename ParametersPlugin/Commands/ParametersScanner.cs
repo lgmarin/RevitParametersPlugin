@@ -6,12 +6,18 @@ using System.Linq;
 
 namespace ParametersPlugin.Commands
 {
+    /// <summary>
+    /// ParameterScanner class contains the logic to find, select and isolate parameters
+    /// </summary>
     public class ParametersScanner
     {
         private UIApplication uIApplication;
         private UIDocument uiDocument;
         private Document document;
 
+        /// <summary>
+        /// Dictionary to store the Selected Elements, the Id is needed for the Isolation
+        /// </summary>
         private Dictionary<ElementId, Element> elementsSelection;
 
         public ParametersScanner(UIApplication uiApp)
@@ -22,6 +28,12 @@ namespace ParametersPlugin.Commands
             elementsSelection = new Dictionary<ElementId, Element>();
         }
 
+        /// <summary>
+        /// Select Elements based on the parameter name and parameter value, if provided.
+        /// </summary>
+        /// <param name="parameterName">Name for the parameter to be looked for</param>
+        /// <param name="parameterValue">Value of the parameter to be looked for</param>
+        /// <returns>true if the Selection was successfull, false if no elements were found.</returns>
         public bool SelectElementsByParameter(string parameterName, string parameterValue)
         {
             UpdateElementsList(parameterName, parameterValue);
@@ -42,6 +54,12 @@ namespace ParametersPlugin.Commands
             return false;
         }
 
+        /// <summary>
+        /// Isolate Elements in the current View based on the parameter name and parameter value, if provided.
+        /// </summary>
+        /// <param name="parameterName">Name for the parameter to be looked for</param>
+        /// <param name="parameterValue">Value of the parameter to be looked for</param>
+        /// <returns>true if the Selection was successfull, false if no elements were found.</returns>
         public bool IsolateInViewByParameter(string parameterName, string parameterValue)
         {
             Document document = uIApplication.ActiveUIDocument.Document;
@@ -90,7 +108,7 @@ namespace ParametersPlugin.Commands
                 Parameter param = element.LookupParameter(parameterName);
                 if (param != null)
                 {
-                    string paramVal = GetParameterInformation(param).Trim();
+                    string paramVal = GetParameterValue(param).Trim();
 
                     // Check if the parameter value matches the given value, or if the parameterValue is empty
                     if (parameterValue.Length == 0 || paramVal.Equals(parameterValue))
@@ -101,7 +119,12 @@ namespace ParametersPlugin.Commands
             }
         }
 
-        private String GetParameterInformation(Parameter parameter)
+        /// <summary>
+        /// Return the parameter Value in String format.
+        /// </summary>
+        /// <param name="parameter">Parameter where the Value will be read.</param>
+        /// <returns>A String containing the Value.</returns>
+        private String GetParameterValue(Parameter parameter)
         {
             string paramValue = string.Empty;
 
